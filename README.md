@@ -8,15 +8,14 @@ The overall project consists of multiple sub projects:
  - Sample Spring Boot applications to access DB2 and other Bluemix services such as RabbitMQ, ElasticSearch
  - Docker compose solution
 
-
- * Build the Spring Boot apps:
+Build the Spring Boot apps:
 
  - Build the microservice app to access MySQL service and demonstrate Hystrix circuit breaker:
 
  	$ cd microservice
  	$ ./gradlew build
 
- 	To run the app:
+  To run the app:
  	$ ./gradlew build && java -jar build/libs/gs-spring-boot-0.1.0.jar
 
 - Build the Eureka Server:
