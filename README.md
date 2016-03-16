@@ -12,7 +12,7 @@ The overall project consists of multiple sub projects:
 ## Build the Spring Boot apps:
 - Build all projects. 
   Run the utility scripts to kick off the build and copy jars to docker folder.  
-     **`$./buildAll.sh`**    
+     **`$ ./buildAll.sh`**    
 
 - Build the microservice app to access MySQL service and demonstrate Hystrix circuit breaker:
 
