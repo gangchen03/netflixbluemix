@@ -20,7 +20,7 @@ cloud:
       end: true
 
 server:
-  port: 8000
+  port: 8080
 
 logging:
   level:
