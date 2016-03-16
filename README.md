@@ -10,6 +10,9 @@ The overall project consists of multiple sub projects:
  - Docker compose solution
 
 ## Build the Spring Boot apps:
+- Build all projects. 
+  Run the utility scripts to kick off the build and copy jars to docker folder.
+  `$./buildAll.sh`  
 
 - Build the microservice app to access MySQL service and demonstrate Hystrix circuit breaker:
 
@@ -51,5 +54,16 @@ The overall project consists of multiple sub projects:
  	To run the app:
  	`$ ./gradlew build && java -jar build/libs/gc-rabbitmq-0.1.0.jar`  
 
+ ## Deploy to local Docker environment
  
+ Ensure that you have local docker environment setup properly. The solution requires docker-compose. 
+ The scripts is validated with docker verion 1.10.x
  
+- Build all docker images  
+     `$ docker-compose build`
+
+- Run the docker containers  
+     `$ docker-compose up`  
+
+- Destroy docker containers  
+     `$ docker-compose down`   
