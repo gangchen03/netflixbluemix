@@ -1,0 +1,37 @@
+eureka:
+  instance:
+     preferIpAddress: true
+  client:
+    serviceUrl:
+       defaultZone: http://eureka-server:8080/eureka/
+       # for Bluemix Deployment
+       # defaultZone: http://134.168.16.210/eureka/v2/,http://172.31.0.26:8080/eureka/v2/
+
+# Spring properties
+spring:
+  application:
+     name: db2-hello-service
+
+  # DB2 Data soure configuration
+  datasource:
+    driverClassName: com.ibm.db2.jcc.DB2Driver
+    url: jdbc:db2://184.173.31.147:50000/SAMPLE:currentSchema=DB2INST1;
+    username: db2inst1
+    password: 
+    max-active: 4
+    testOnBorrow: true
+    validationQuery: SELECT 1 FROM SYSIBM.SYSDUMMY1
+
+
+  jpa:
+    database: DB2
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+
+
+# Server configuration
+server:
+  port: 8081
+  context-path: /app/db2
