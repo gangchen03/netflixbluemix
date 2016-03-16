@@ -14,6 +14,12 @@ cd eurekaserver
 cp build/libs/eureka-spring-boot-0.1.0.jar docker/app.jar
 cd ..
 
+echo 'Build Eureka DR Server ***'
+cd eurekaserverdr
+./gradlew build
+cp build/libs/eureka-spring-boot-0.1.0.jar docker/app.jar
+cd ..
+
 
 echo 'Build Zuul Proxy ***'
 cd zuulproxy

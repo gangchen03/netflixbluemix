@@ -6,7 +6,15 @@ services:
     build: ./eurekaserver/docker
     image: dev/spring-eureka-server
     ports:
-     - "8000:8080"
+     - "8080:8080"
+     
+  eureka-server-dr: 
+    build: ./eurekaserverdr/docker
+    image: dev/spring-eureka-server-dr
+    links: 
+      - eureka-server:eureka-server
+    ports:
+     - "8761:8761"
      
   zuul-proxy:
     build: ./zuulproxy/docker

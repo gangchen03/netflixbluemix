@@ -3,8 +3,7 @@ eureka:
      preferIpAddress: true
   client:
     serviceUrl:
-       defaultZone: http://localhost:8080/eureka/
-       #defaultZone: http://eureka-server:8080/eureka/
+       defaultZone: http://eureka-server:8080/eureka/
        # for Bluemix Deployment
        # defaultZone: http://134.168.16.210/eureka/v2/,http://172.31.0.26:8080/eureka/v2/
 
