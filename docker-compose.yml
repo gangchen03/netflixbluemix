@@ -3,13 +3,13 @@ version: '2'
 services:
 
   eureka-server: 
-    build: ./dockerBluemixEureka
+    build: ./eurekaserver/docker
     image: dev/spring-eureka-server
     ports:
-     - "8080:8080"
+     - "8000:8080"
      
   zuul-proxy:
-    build: ./dockerBluemixZuul
+    build: ./zuulproxy/docker
     image: dev/spring-zuul-proxy
     links: 
       - eureka-server:eureka-server
@@ -26,7 +26,7 @@ services:
      
      
   mq-hello-service:
-   build: ./dockerBluemixMQ
+   build: ./mqmicroservice/docker
    image: dev/mq-hello-service
    links: 
      - eureka-server:eureka-server
