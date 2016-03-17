@@ -40,3 +40,13 @@ services:
      - eureka-server:eureka-server
    ports: 
      - "8083:8080"     
+     
+  nginx:
+    build: ./nginx
+    image: dev/nginx
+    links:
+      - eureka-server:eureka-server
+      - eureka-server-dr:eureka-server-dr
+      - zuul-proxy:zuul-proxy
+    ports:
+      - "80:80"
