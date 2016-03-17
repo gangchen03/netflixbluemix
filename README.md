@@ -1,4 +1,5 @@
-# netflixbluemix
+# Deploy Spring Boot Netflix OSS app to IBM Bluemix Container
+
 ## Introduction
 
 This project tracks the activities and artifacts of deploying Netflix OSS based Micro-servcie solution to IBM Cloud (Bluemix). 
@@ -67,3 +68,21 @@ The overall project consists of multiple sub projects:
 
 - Destroy docker containers  
      `$ docker-compose down`   
+
+## Validate deployment
+Use the following links to validate a successful solution deployment to local or Bluemix container.
+
+- Access Eureka Server Console:  
+    [http://nginx_ip/eureka/](http://nginx_ip/eureka/)  
+
+- Invoke microservice that queries DB2:  
+    [http://nginx_ip/db2-hello-service/app/db2/department](http://nginx_ip/db2-hello-service/app/db2/department)    
+    You should see a list of department records returned from DB2, for example:
+     A00-->SPIFFY COMPUTER SERVICE DIV.-->000010  
+     B01-->PLANNING-->000020  
+     C01-->INFORMATION CENTER-->000030  
+
+- Invoke microservice that sends RabbitMQ message:  
+    [http://nginx_ip/mq-hello-service/app/mq/msg/HelloIBM](http://nginx_ip/mq-hello-service/app/mq/msg/HelloIBM)  
+  You should see the message in browser: Msg send to RabbitMQ!  
+  The Container log should show message received as HelloIBM  
