@@ -1,0 +1,57 @@
+version: '2'
+
+services:
+
+  eureka-server:
+    build: ./eurekaserver/docker
+    image: registry.ng.bluemix.net/${NAMESPACE}/spring-eureka-server
+    expose:
+     - "8080"
+    mem_limit: 256
+
+  eureka-server-dr:
+    build: ./eurekaserverdr/docker
+    image: registry.ng.bluemix.net/${NAMESPACE}/spring-eureka-server-dr
+    links:
+     - eureka-server:eureka-server
+    expose:
+     - "8761"
+    mem_limit: 256
+
+  zuul-proxy:
+    build: ./zuulproxy/docker
+    image: registry.ng.bluemix.net/${NAMESPACE}/spring-zuul-proxy
+    links:
+     - eureka-server:eureka-server
+    expose:
+     - "8080"
+    mem_limit: 256
+
+  db2-hello-service:
+    build: ./db2microservice/docker
+    image: registry.ng.bluemix.net/${NAMESPACE}/db2-hello-service
+    links:
+     - eureka-server:eureka-server
+    expose:
+     - "8080"
+    mem_limit: 256
+
+  mq-hello-service:
+    build: ./mqmicroservice/docker
+    image: registry.ng.bluemix.net/${NAMESPACE}/mq-hello-service
+    links:
+     - eureka-server:eureka-server
+    expose:
+     - "8080"
+    mem_limit: 256
+
+  nginx:
+    build: ./nginx
+    image: registry.ng.bluemix.net/${NAMESPACE}/noss-nginx
+    links:
+     - eureka-server:eureka-server
+     - eureka-server-dr:eureka-server-dr
+     - zuul-proxy:zuul-proxy
+    ports:
+     - "80"
+    mem_limit: 256

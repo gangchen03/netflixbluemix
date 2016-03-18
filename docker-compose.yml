@@ -43,7 +43,7 @@ services:
      
   nginx:
     build: ./nginx
-    image: dev/nginx
+    image: dev/noss-nginx
     links:
       - eureka-server:eureka-server
       - eureka-server-dr:eureka-server-dr
