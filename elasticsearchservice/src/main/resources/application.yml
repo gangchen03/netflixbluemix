@@ -1,0 +1,23 @@
+eureka:
+  instance:
+     preferIpAddress: true
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-server:8080/eureka/
+      #defaultZone: http://134.168.16.210/eureka/v2/,http://172.31.0.26:8080/eureka/v2/
+
+# Spring properties
+spring:
+  application:
+     name: elasticsearch-service
+     
+  data:
+    elasticsearch:
+      cluster-name: elasticsearch
+      cluster-nodes: 192.168.99.100:9300
+      repositories:
+        enabled: true
+        
+# Server configuration
+server:
+  context-path: /app/es

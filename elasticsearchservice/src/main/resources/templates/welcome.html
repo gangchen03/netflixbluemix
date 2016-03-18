@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>IBM Bluemix - Elastic Search Demo</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <!-- Latest compiled and minified CSS -->
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" />
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://bluemix.net/">
+                <img src="images/bluemix-small.png"
+                     th:src="@{images/bluemix-small.png}"
+                     height="32" width="32"
+                     alt="Bluemix"
+                     border="0"/>
+            </a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <form th:action="@{/search}" method="post" class="navbar-form navbar-right">
+                <div class="form-group">
+                    <input type="text" id="firstname" name="firstname" placeholder="Search by First Name" class="form-control" />
+                </div>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/" >Home</a></li>
+                <li><a href="http://spring.io">Spring Boot</a></li>
+                <li><a href="https://www.elastic.co/">Elastic</a></li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+<!-- NAVBAR CODE END -->
+
+
+<div class="bs-example">
+    <div class="page-header">
+        <h1>IBM Bluemix <small>Spring Boot Elastic Search Demo</small> </h1>
+    </div>
+</div>
+
+<div class="bs-example" th:if="${employeesCount == 0}">
+    <div class="bs-example">
+        <div class="alert alert-info fade in">
+            <a href="#" class="close" data-dismiss="alert">&times;</a>
+            <strong>Empty Search Resultset!</strong> Search string used was: <b>{<span th:text="${searchStr}" />}</b>
+        </div>
+    </div>
+</div>
+
+<!-- Add table with Results only if results exist -->
+<div class="bs-example" th:if="${employeesCount > 0}">
+    <div class="alert alert-success fade in">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <strong>Success!</strong> Found <b th:text="${employeesCount}"></b> Employees in Elastic Cluster
+    </div>
+    <div class="col-xs-8">
+        <table class="table table-hover table-bordered table-striped table-condensed">
+            <thead>
+            <tr>
+                <th colspan="5" style="text-align:center"><b>Employees</b></th>
+            </tr>
+            <tr>
+                <th style="text-align:center">Id</th>
+                <th style="text-align:center">First Name</th>
+                <th style="text-align:center">Last Name</th>
+                <th style="text-align:center">Job</th>
+                <th style="text-align:center">Dept#</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="employee : ${employees}">
+                <td th:text="${employee.id}" style="text-align:center"></td>
+                <td th:text="${employee.firstName}" style="text-align:center"></td>
+                <td th:text="${employee.lastName}" style="text-align:center"></td>
+                <td th:text="${employee.job}" style="text-align:center"></td>
+                <td th:text="${employee.deptNo}" style="text-align:center"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="clearfix">
+</div>
+
+<div th:include="footer :: copy"></div>
+
+</body>
+</html>
