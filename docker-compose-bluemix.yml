@@ -47,7 +47,7 @@ services:
 
   nginx:
     build: ./nginx
-    image: registry.ng.bluemix.net/${NAMESPACE}/nginx
+    image: registry.ng.bluemix.net/${NAMESPACE}/noss-nginx
     links:
      - eureka-server:eureka-server
      - eureka-server-dr:eureka-server-dr
