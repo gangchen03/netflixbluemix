@@ -32,9 +32,16 @@ services:
    ports: 
      - "8082:8080"
      
-     
+  mysql-hello-service:
+   build: ./microservice/docker
+   image: dev/mysql-hello-service
+   links: 
+     - eureka-server:eureka-server
+   ports: 
+     - "8085:8080"
+
   mq-hello-service:
-   build: ./mqmicroservice/docker
+   build: ./microservice/docker
    image: dev/mq-hello-service
    links: 
      - eureka-server:eureka-server
@@ -50,3 +57,17 @@ services:
       - zuul-proxy:zuul-proxy
     ports:
       - "80:80"
+
+  elasticsearch-server: 
+    image: elasticsearch:1.7.3
+    ports:
+     - "9200:9200"
+     - "9300:9300"
+    
+  elasticsearch-service:
+   build: ./elasticsearchservice/docker
+   image: dev/elasticsearch-service
+   links: 
+     - elasticsearch-server:elasticsearch-server
+   ports: 
+     - "8084:8080" 

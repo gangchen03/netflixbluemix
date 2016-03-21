@@ -46,4 +46,11 @@ cd mqmicroservice
 cp build/libs/gc-rabbitmq-0.1.0.jar docker/app.jar
 cd ..
 
+
+echo 'Build ElasticSearch Sample App ***'
+cd elasticsearchservice
+./gradlew build
+cp build/libs/gc-elasticsearch-0.1.0.jar docker/app.jar
+cd ..
+
 echo 'Completed All Builds successfully!'
