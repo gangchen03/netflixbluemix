@@ -41,7 +41,7 @@ services:
      - "8085:8080"
 
   mq-hello-service:
-   build: ./microservice/docker
+   build: ./mqmicroservice/docker
    image: dev/mq-hello-service
    links: 
      - eureka-server:eureka-server
