@@ -4,54 +4,65 @@ services:
 
   eureka-server:
     build: ./eurekaserver/docker
-    image: registry.ng.bluemix.net/${NAMESPACE}/spring-eureka-server
+    image: registry.ng.bluemix.net/${NAMESPACE}/spring-eureka-server:latest
     expose:
      - "8080"
-    mem_limit: 256
+    mem_limit: "256M"
 
   eureka-server-dr:
     build: ./eurekaserverdr/docker
-    image: registry.ng.bluemix.net/${NAMESPACE}/spring-eureka-server-dr
+    image: registry.ng.bluemix.net/${NAMESPACE}/spring-eureka-server-dr:latest
     links:
      - eureka-server:eureka-server
     expose:
      - "8761"
-    mem_limit: 256
+    mem_limit: "256M"
 
   zuul-proxy:
     build: ./zuulproxy/docker
-    image: registry.ng.bluemix.net/${NAMESPACE}/spring-zuul-proxy
+    image: registry.ng.bluemix.net/${NAMESPACE}/spring-zuul-proxy:latest
     links:
      - eureka-server:eureka-server
     expose:
      - "8080"
-    mem_limit: 256
-
-  db2-hello-service:
-    build: ./db2microservice/docker
-    image: registry.ng.bluemix.net/${NAMESPACE}/db2-hello-service
-    links:
-     - eureka-server:eureka-server
-    expose:
-     - "8080"
-    mem_limit: 256
-
-  mq-hello-service:
-    build: ./mqmicroservice/docker
-    image: registry.ng.bluemix.net/${NAMESPACE}/mq-hello-service
-    links:
-     - eureka-server:eureka-server
-    expose:
-     - "8080"
-    mem_limit: 256
+    mem_limit: "256M"
 
   nginx:
     build: ./nginx
-    image: registry.ng.bluemix.net/${NAMESPACE}/noss-nginx
+    image: registry.ng.bluemix.net/${NAMESPACE}/noss-nginx:latest
     links:
      - eureka-server:eureka-server
      - eureka-server-dr:eureka-server-dr
      - zuul-proxy:zuul-proxy
     ports:
      - "80"
-    mem_limit: 256
+    mem_limit: "256M"
+
+  db2-hello-service:
+    build: ./db2microservice/docker
+    image: registry.ng.bluemix.net/${NAMESPACE}/db2-hello-service:latest
+    links:
+     - eureka-server:eureka-server
+    expose:
+     - "8080"
+    mem_limit: "256M"
+
+  mq-hello-service:
+    build: ./mqmicroservice/docker
+    image: registry.ng.bluemix.net/${NAMESPACE}/mq-hello-service:latest
+    links:
+     - eureka-server:eureka-server
+    expose:
+     - "8080"
+    mem_limit: "256M"
+
+  # TBD - MySQL
+
+  # TBD - Elasticsearch Server
+
+  # TBD - Elasticsearch Service
+
+networks:
+  default:
+    external:
+      name: default
