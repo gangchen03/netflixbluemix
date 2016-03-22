@@ -57,10 +57,34 @@ services:
     mem_limit: "256M"
 
   # TBD - MySQL
+  mysql-hello-service-5:
+   build: ./microservice/docker
+   image: registry.ng.bluemix.net/${NAMESPACE}/mysql-hello-service
+   links: 
+     - eureka-server-5:eureka-server
+   expose:
+     - "8080"
+   mem_limit: "256M"
 
   # TBD - Elasticsearch Server
-
-  # TBD - Elasticsearch Service
+  elasticsearch-server-5: 
+    image: registry.ng.bluemix.net/cloudarch/elasticsearch:1.7.3
+    expose:
+     - "9200"
+     - "9300"
+    mem_limit: "256M"
+    
+   # TBD - Elasticsearch Service
+  elasticsearch-service-5:
+   build: ./elasticsearchservice/docker
+   image: registry.ng.bluemix.net/${NAMESPACE}/elasticsearch-service
+   links: 
+     - eureka-server-5:eureka-server
+     - eureka-server-dr-5:eureka-server-dr
+     - elasticsearch-server-5:elasticsearch-server
+   expose: 
+     - "8080" 
+   mem_limit: "256M"
 
 networks:
   default:
