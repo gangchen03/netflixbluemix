@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This project tracks the activities and artifacts of deploying Netflix OSS based Micro-servcie solution to IBM Cloud (Bluemix).
+This project tracks the activities and artifacts of deploying Netflix OSS based microservice solution to IBM Cloud (Bluemix).
 It is maintained by IBM Cloud Lab Services and Cloud Solution Engineering team.
 The overall project consists of multiple sub projects:
 
