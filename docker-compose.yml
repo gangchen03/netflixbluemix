@@ -2,54 +2,54 @@ version: '2'
 
 services:
 
-  eureka-server: 
-    build: ./eurekaserver/docker
+  eureka-server:
+    build: ../netflixbluemix-core/eurekaserver/docker
     image: dev/spring-eureka-server
     ports:
      - "8080:8080"
-     
-  eureka-server-dr: 
-    build: ./eurekaserverdr/docker
+
+  eureka-server-dr:
+    build: ../netflixbluemix-core/eurekaserverdr/docker
     image: dev/spring-eureka-server-dr
-    links: 
+    links:
       - eureka-server:eureka-server
     ports:
      - "8761:8761"
-     
+
   zuul-proxy:
-    build: ./zuulproxy/docker
+    build: ../netflixbluemix-core/zuulproxy/docker
     image: dev/spring-zuul-proxy
-    links: 
+    links:
       - eureka-server:eureka-server
-    ports: 
+    ports:
      - "8081:8080"
-     
+
   db2-hello-service:
-   build: ./db2microservice/docker
+   build: ../netflixbluemix-db2/db2microservice/docker
    image: dev/db2-hello-service
-   links: 
+   links:
      - eureka-server:eureka-server
-   ports: 
+   ports:
      - "8082:8080"
-     
+
   mysql-hello-service:
-   build: ./microservice/docker
+   build: ../netflixbluemix-mysql/microservice/docker
    image: dev/mysql-hello-service
-   links: 
+   links:
      - eureka-server:eureka-server
-   ports: 
+   ports:
      - "8085:8080"
 
   mq-hello-service:
-   build: ./mqmicroservice/docker
+   build: ../netflixbluemix-mq/mqmicroservice/docker
    image: dev/mq-hello-service
-   links: 
+   links:
      - eureka-server:eureka-server
-   ports: 
-     - "8083:8080"     
-     
+   ports:
+     - "8083:8080"
+
   nginx:
-    build: ./nginx
+    build: ../netflixbluemix-core/nginx
     image: dev/noss-nginx
     links:
       - eureka-server:eureka-server
@@ -58,16 +58,16 @@ services:
     ports:
       - "80:80"
 
-  elasticsearch-server: 
+  elasticsearch-server:
     image: elasticsearch:1.7.3
     ports:
      - "9200:9200"
      - "9300:9300"
-    
+
   elasticsearch-service:
-   build: ./elasticsearchservice/docker
+   build: ../netflixbluemix-elasticsearch/elasticsearchservice/docker
    image: dev/elasticsearch-service
-   links: 
+   links:
      - elasticsearch-server:elasticsearch-server
-   ports: 
-     - "8084:8080" 
+   ports:
+     - "8084:8080"
