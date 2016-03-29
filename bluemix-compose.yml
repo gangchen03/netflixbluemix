@@ -15,7 +15,7 @@ services:
     links:
      - eureka-server:eureka-server
     expose:
-     - "8761"
+     - "8080"
     mem_limit: 256
 
   zuul-proxy:
@@ -35,7 +35,7 @@ services:
      - eureka-server-dr:eureka-server-dr
      - zuul-proxy:zuul-proxy
     ports:
-     - "80"
+     - "80:80"
     mem_limit: 256
 
   db2-hello-service:
@@ -72,7 +72,7 @@ services:
      - "9300"
     mem_limit: 256
 
-  elasticsearch-service-5:
+  elasticsearch-service:
    build: ../netflixbluemix-elasticsearch/elasticsearchservice/docker
    image: registry.ng.bluemix.net/${NAMESPACE}/elasticsearch-service
    links:
