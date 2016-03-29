@@ -14,7 +14,7 @@ services:
     links:
       - eureka-server:eureka-server
     ports:
-     - "8761:8761"
+     - "8081:8080"
 
   zuul-proxy:
     build: ../netflixbluemix-core/zuulproxy/docker
@@ -22,7 +22,7 @@ services:
     links:
       - eureka-server:eureka-server
     ports:
-     - "8081:8080"
+     - "8082:8080"
 
   db2-hello-service:
    build: ../netflixbluemix-db2/db2microservice/docker
@@ -30,7 +30,7 @@ services:
    links:
      - eureka-server:eureka-server
    ports:
-     - "8082:8080"
+     - "8083:8080"
 
   mysql-hello-service:
    build: ../netflixbluemix-mysql/microservice/docker
@@ -38,7 +38,7 @@ services:
    links:
      - eureka-server:eureka-server
    ports:
-     - "8085:8080"
+     - "8084:8080"
 
   mq-hello-service:
    build: ../netflixbluemix-mq/mqmicroservice/docker
@@ -46,7 +46,7 @@ services:
    links:
      - eureka-server:eureka-server
    ports:
-     - "8083:8080"
+     - "8085:8080"
 
   nginx:
     build: ../netflixbluemix-core/nginx
@@ -70,4 +70,4 @@ services:
    links:
      - elasticsearch-server:elasticsearch-server
    ports:
-     - "8084:8080"
+     - "8086:8080"
