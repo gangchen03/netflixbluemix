@@ -1,6 +1,7 @@
 version: "2"
 
 services:
+  
   eureka-server:
     build: ../netflixbluemix-core/eurekaserver/docker
     image: registry.ng.bluemix.net/${NAMESPACE}/spring-eureka-server:latest
@@ -22,6 +23,7 @@ services:
     image: registry.ng.bluemix.net/${NAMESPACE}/spring-zuul-proxy:latest
     links:
      - eureka-server:eureka-server
+     - eureka-server-dr:eureka-server-dr
     expose:
      - "8080"
     mem_limit: 256
@@ -42,15 +44,8 @@ services:
     image: registry.ng.bluemix.net/${NAMESPACE}/db2-hello-service:latest
     links:
      - eureka-server:eureka-server
-    expose:
-     - "8080"
-    mem_limit: 256
-
-  mq-hello-service:
-    build: ../netflixbluemix-mq/mqmicroservice/docker
-    image: registry.ng.bluemix.net/${NAMESPACE}/mq-hello-service:latest
-    links:
-     - eureka-server:eureka-server
+     - eureka-server-dr:eureka-server-dr
+     - nginx:nginx
     expose:
      - "8080"
     mem_limit: 256
@@ -60,12 +55,27 @@ services:
    image: registry.ng.bluemix.net/${NAMESPACE}/mysql-hello-service
    links:
      - eureka-server:eureka-server
+     - eureka-server-dr:eureka-server-dr
+     - nginx:nginx
    expose:
      - "8080"
    mem_limit: 256
 
+  mq-hello-service:
+    build: ../netflixbluemix-mq/mqmicroservice/docker
+    image: registry.ng.bluemix.net/${NAMESPACE}/mq-hello-service:latest
+    links:
+     - eureka-server:eureka-server
+     - eureka-server-dr:eureka-server-dr
+     - nginx:nginx
+    expose:
+     - "8080"
+    mem_limit: 256
+
   elasticsearch-server:
     image: registry.ng.bluemix.net/${NAMESPACE}/elasticsearch:1.7.3
+    links:
+     - nginx:nginx
     expose:
      - "9200"
      - "9300"
@@ -78,6 +88,7 @@ services:
      - eureka-server:eureka-server
      - eureka-server-dr:eureka-server-dr
      - elasticsearch-server:elasticsearch-server
+     - nginx:nginx
    expose:
      - "8080"
    mem_limit: 256
