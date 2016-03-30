@@ -2,7 +2,7 @@ eureka-server:
   image: registry.ng.bluemix.net/${NAMESPACE}/spring-eureka-server:latest
   expose:
    - "8080"
-  mem_limit: 256M
+  mem_limit: 256
 
 eureka-server-dr:
   image: registry.ng.bluemix.net/${NAMESPACE}/spring-eureka-server-dr:latest
@@ -10,7 +10,7 @@ eureka-server-dr:
    - eureka-server:eureka-server
   expose:
    - "8080"
-  mem_limit: 256M
+  mem_limit: 256
 
 zuul-proxy:
   image: registry.ng.bluemix.net/${NAMESPACE}/spring-zuul-proxy:latest
@@ -19,7 +19,7 @@ zuul-proxy:
    - eureka-server-dr:eureka-server-dr
   expose:
    - "8080"
-  mem_limit: 256M
+  mem_limit: 256
 
 nginx:
   image: registry.ng.bluemix.net/${NAMESPACE}/noss-nginx:latest
@@ -29,7 +29,7 @@ nginx:
    - zuul-proxy:zuul-proxy
   ports:
    - "80:80"
-  mem_limit: 256M
+  mem_limit: 256
 
 db2-hello-service:
   image: registry.ng.bluemix.net/${NAMESPACE}/db2-hello-service:latest
@@ -39,7 +39,7 @@ db2-hello-service:
    - nginx:nginx
   expose:
    - "8080"
-  mem_limit: 256M
+  mem_limit: 256
 
 mysql-hello-service:
  image: registry.ng.bluemix.net/${NAMESPACE}/mysql-hello-service
@@ -49,7 +49,7 @@ mysql-hello-service:
    - nginx:nginx
  expose:
    - "8080"
- mem_limit: 256M
+ mem_limit: 256
 
 mq-hello-service:
   image: registry.ng.bluemix.net/${NAMESPACE}/mq-hello-service:latest
@@ -59,7 +59,7 @@ mq-hello-service:
    - nginx:nginx
   expose:
    - "8080"
-  mem_limit: 256M
+  mem_limit: 256
 
 elasticsearch-server:
   image: registry.ng.bluemix.net/cloudarch/elasticsearch:1.7.3
@@ -68,7 +68,7 @@ elasticsearch-server:
   expose:
    - "9200"
    - "9300"
-  mem_limit: 256M
+  mem_limit: 256
 
 elasticsearch-service:
  image: registry.ng.bluemix.net/${NAMESPACE}/elasticsearch-service
