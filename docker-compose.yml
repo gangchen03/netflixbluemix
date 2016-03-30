@@ -5,48 +5,28 @@ services:
   eureka-server:
     build: ../netflixbluemix-core/eurekaserver/docker
     image: dev/spring-eureka-server
-    ports:
-     - "8080:8080"
+    expose:
+     - "8080"
+    mem_limit: 0
 
   eureka-server-dr:
     build: ../netflixbluemix-core/eurekaserverdr/docker
     image: dev/spring-eureka-server-dr
     links:
       - eureka-server:eureka-server
-    ports:
-     - "8081:8080"
+    expose:
+     - "8080"
+    mem_limit: 0
 
   zuul-proxy:
     build: ../netflixbluemix-core/zuulproxy/docker
     image: dev/spring-zuul-proxy
     links:
       - eureka-server:eureka-server
-    ports:
-     - "8082:8080"
-
-  db2-hello-service:
-   build: ../netflixbluemix-db2/db2microservice/docker
-   image: dev/db2-hello-service
-   links:
-     - eureka-server:eureka-server
-   ports:
-     - "8083:8080"
-
-  mysql-hello-service:
-   build: ../netflixbluemix-mysql/microservice/docker
-   image: dev/mysql-hello-service
-   links:
-     - eureka-server:eureka-server
-   ports:
-     - "8084:8080"
-
-  mq-hello-service:
-   build: ../netflixbluemix-mq/mqmicroservice/docker
-   image: dev/mq-hello-service
-   links:
-     - eureka-server:eureka-server
-   ports:
-     - "8085:8080"
+      - eureka-server-dr:eureka-server-dr
+    expose:
+     - "8080"
+    mem_limit: 0
 
   nginx:
     build: ../netflixbluemix-core/nginx
@@ -57,17 +37,58 @@ services:
       - zuul-proxy:zuul-proxy
     ports:
       - "80:80"
+    mem_limit: 0
+
+  db2-hello-service:
+   build: ../netflixbluemix-db2/db2microservice/docker
+   image: dev/db2-hello-service
+   links:
+     - eureka-server:eureka-server
+     - eureka-server-dr:eureka-server-dr
+     - nginx:nginx
+   expose:
+     - "8080"
+   mem_limit: 0
+
+  mysql-hello-service:
+   build: ../netflixbluemix-mysql/microservice/docker
+   image: dev/mysql-hello-service
+   links:
+     - eureka-server:eureka-server
+     - eureka-server-dr:eureka-server-dr
+     - nginx:nginx
+   expose:
+     - "8080"
+   mem_limit: 0
+
+  mq-hello-service:
+   build: ../netflixbluemix-mq/mqmicroservice/docker
+   image: dev/mq-hello-service
+   links:
+     - eureka-server:eureka-server
+     - eureka-server-dr:eureka-server-dr
+     - nginx:nginx
+   expose:
+     - "8080"
+   mem_limit: 0
 
   elasticsearch-server:
     image: elasticsearch:1.7.3
-    ports:
-     - "9200:9200"
-     - "9300:9300"
+    links:
+     - nginx:nginx
+    expose:
+     - "9200"
+     - "9300"
+    mem_limit: 0
 
   elasticsearch-service:
    build: ../netflixbluemix-elasticsearch/elasticsearchservice/docker
    image: dev/elasticsearch-service
    links:
+     - eureka-server:eureka-server
+     - eureka-server-dr:eureka-server-dr
      - elasticsearch-server:elasticsearch-server
-   ports:
-     - "8086:8080"
+     - nginx:nginx
+   expose:
+     - "8080"
+   mem_limit: 0
