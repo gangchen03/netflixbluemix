@@ -116,7 +116,11 @@ The overall project consists of multiple sub projects:
 - Initialize your IBM Containers credentials  
     `cf ic init`
 
-- Copy & paste the `export DOCKER_YYY_ZZZ` commands _(there should be three of them)_ into your command line.
+- Copy & paste the `export DOCKER_YYY_ZZZ` commands _(there should be three of them)_ into your command line.  
+  For example:  
+`export DOCKER_HOST=tcp://containers-api.ng.bluemix.net:[port]`  
+`export DOCKER_CERT_PATH=/Users/username/.ice/certs/containers-api.ng.bluemix.net/xxxxxxx-yyyyyy-0000000-11111`  
+`export DOCKER_TLS_VERIFY=1`  
 
 - Validate these values are set via the `env | grep DOCKER` command.
 
