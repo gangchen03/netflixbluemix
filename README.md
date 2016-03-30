@@ -88,17 +88,65 @@ The overall project consists of multiple sub projects:
 - Build all projects, as described in the previous section
 
 - Build all docker images  
-     `$ docker-compose build`
+     `docker-compose build`
 
 - Run the docker containers  
-     `$ docker-compose up`  
+     `docker-compose up`  
 
 - Destroy docker containers  
-     `$ docker-compose down`  
+     `docker-compose down`  
 
 ## Deploy to remote Docker environment on IBM Bluemix
 
-_TBD_
+### Prerequisites
+
+- Install Docker Compose.
+  Due to a number of SSL library version incompatibilities, it is recommended to follow the documented install directions available in the [Bluemix Docs](https://new-console.ng.bluemix.net/docs/containers/container_cli_ov.html#container_cli_compose_install).
+
+- Install [Cloud Foundry Plugin](https://new-console.ng.bluemix.net/docs/cli/index.html#cli)
+
+- Install [IBM Containers plugin](https://new-console.ng.bluemix.net/docs/containers/container_cli_ov.html#container_cli_ov)
+
+### Configure CLI to point to Bluemix
+
+- Log in via the CF command line  
+    `cf api https://api.ng.bluemix.net`  
+    `cf login`
+
+- Initialize your IBM Containers credentials  
+    `cf ic init`
+
+- Copy & paste the `export DOCKER_YYY_ZZZ` commands _(there should be three of them)_ into your command line.
+
+- Validate these values are set via the `env | grep DOCKER` command.
+
+- Validate the remote Docker communication.  The `docker images` command should show your available images in the private Docker registry inside your Bluemix organization.
+
+- Ensure that your Bluemix organization's Container quota contains at least 2.5GB of RAM and 1 public IP address.  This can be managed via the [Manage Organizations](https://new-console.ng.bluemix.net/?direct=classic/#/manage/type=org&tabId=users) page of Bluemix.
+
+### Build & deploy your app to Bluemix
+
+Note that specific Docker Compose files must be used in this process to interact with the current Docker Compose support inside the IBM Containers service.  These files point to the same builds, images, etc. but are built using different versions of the Docker Compose file format, as needed.
+
+- Build all projects, as described in the previous *Build* section
+
+- Set your namespace in your local CLI via the following command:
+     `export NAMESPACE=$(cf ic namespace get)`
+
+- Build all docker images, using the **bluemix-compose.yml** file.  This is a Version 2-formatted Docker Compose file.  
+     `docker-compose -f bluemix-compose.yml build`
+
+- Run the docker containers, using the **bluemix-compose-v1.yml** file.  This is a Version 1-formatted Docker Compose file.  
+     `docker-compose -f bluemix-compose-v1.yml up -d`  
+
+- Assign a public IP address to the NGINX container
+     - `docker ps | grep nginx` to identify the nginx container ID
+     - `cf ic ip request` to request a public IP address
+     - `cf ic ip bind [nginx_container_id] [public_ip]` to bind the public IP address to the NGINX container
+     - After a few moments, access the application through the *Validate Deployment* section below.
+
+- Destroy docker containers  
+     `docker-compose down`  
 
 ## Validate deployment
 Use the following links to validate a successful solution deployment to local or Bluemix container.
@@ -115,7 +163,18 @@ B01-->PLANNING-->000020
 C01-->INFORMATION CENTER-->000030
 ```
 
+- Invoke microservice that queries MySQL:  
+    [http://nginx_ip/hello-service/app/tasklist](http://nginx_ip/hello-service/app/tasklist)    
+    You should see a list of tasks returned from MySQL, for example:
+```
+2-->Build Task, 12-->Task on Bluemix, 22-->due on Friday, 32-->Add the task,
+```
+
 - Invoke microservice that sends RabbitMQ message:  
     [http://nginx_ip/mq-hello-service/app/mq/msg/HelloIBM](http://nginx_ip/mq-hello-service/app/mq/msg/HelloIBM)  
   You should see the message in browser: `Msg send to RabbitMQ!`  
   The Docker container log should show: `message received as HelloIBM`  
+
+- Invoke microservice that queries Elasticsearch:  
+    [http://nginx_ip/elasticsearch-service/app/es](http://nginx_ip/elasticsearch-service/app/es)    
+    You should see a table of information queried from Elasticsearch
