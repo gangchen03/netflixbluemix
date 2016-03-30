@@ -41,16 +41,6 @@ db2-hello-service:
    - "8080"
   mem_limit: 256M
 
-mq-hello-service:
-  image: registry.ng.bluemix.net/${NAMESPACE}/mq-hello-service:latest
-  links:
-   - eureka-server:eureka-server
-   - eureka-server-dr:eureka-server-dr
-   - nginx:nginx
-  expose:
-   - "8080"
-  mem_limit: 256M
-
 mysql-hello-service:
  image: registry.ng.bluemix.net/${NAMESPACE}/mysql-hello-service
  links:
@@ -60,6 +50,16 @@ mysql-hello-service:
  expose:
    - "8080"
  mem_limit: 256M
+
+mq-hello-service:
+  image: registry.ng.bluemix.net/${NAMESPACE}/mq-hello-service:latest
+  links:
+   - eureka-server:eureka-server
+   - eureka-server-dr:eureka-server-dr
+   - nginx:nginx
+  expose:
+   - "8080"
+  mem_limit: 256M
 
 elasticsearch-server:
   image: registry.ng.bluemix.net/cloudarch/elasticsearch:1.7.3
