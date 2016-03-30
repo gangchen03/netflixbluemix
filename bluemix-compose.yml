@@ -1,7 +1,6 @@
-version: '2'
+version: "2"
 
 services:
-
   eureka-server:
     build: ../netflixbluemix-core/eurekaserver/docker
     image: registry.ng.bluemix.net/${NAMESPACE}/spring-eureka-server:latest
@@ -66,7 +65,7 @@ services:
    mem_limit: 256
 
   elasticsearch-server:
-    image: registry.ng.bluemix.net/cloudarch/elasticsearch:1.7.3
+    image: registry.ng.bluemix.net/${NAMESPACE}/elasticsearch:1.7.3
     expose:
      - "9200"
      - "9300"
