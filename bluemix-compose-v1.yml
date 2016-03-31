@@ -62,7 +62,7 @@ mq-hello-service:
   mem_limit: 256
 
 elasticsearch-server:
-  image: registry.ng.bluemix.net/cloudarch/elasticsearch:1.7.3
+  image: registry.ng.bluemix.net/${NAMESPACE}/elasticsearch:1.7.3
   links:
    - nginx:nginx
   expose:
