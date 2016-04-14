@@ -31,8 +31,8 @@ function heartbeat(){
   while [[ ! -z $(netstat -lnt | awk "\$6 == \"LISTEN\"" ) ]] ; do
     NOW=$(date)
     echo "[${NOW}] Heartbeating ${HEARTBEAT_URL}"
-    HEARTBEAT=$(curl -s -X PUT -H "Authorization: Bearer ${AUTHTOKEN}" -H "Content-Length: 0" "${HEARTBEAT_URL}")
-    echo ${HEARTBEAT}
+    HEARTBEAT=$(curl -X PUT -H "Authorization: Bearer ${AUTHTOKEN}" -H "Content-Length: 0" ${HEARTBEAT_URL})
+    #echo ${HEARTBEAT}
     sleep ${HB_TTL} # sleep for half the TTL
   done
 }
