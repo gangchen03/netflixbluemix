@@ -36,7 +36,7 @@ then
           while true
           do
             echo "Check service registry for master node"
-            COUNTER=$(curl -X GET -H "Authorization: bearer rl3j00e06ee9e85emtrt3o012cp3ahpm8hqg2qsvku7olpafs78" "https://servicediscovery.ng.bluemix.net/api/v1/services/consul" | cut -b 3-7)
+            COUNTER=$(curl -X GET -H "Authorization: bearer ${SERVICE_DISCOVERY_TOKEN}" "https://servicediscovery.ng.bluemix.net/api/v1/services/consul" | cut -b 3-7)
             echo $COUNTER
             if [ $COUNTER == "Error" ]; then
                   /bin/sleep 10
