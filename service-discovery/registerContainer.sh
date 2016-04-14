@@ -9,7 +9,7 @@
 
 AUTHTOKEN=${1}
 SERVICENAME=${2}
-DEFAULT_TTL=600
+DEFAULT_TTL=300
 SDENDPOINT="https://servicediscovery.ng.bluemix.net/api/v1"
 CURL='/usr/bin/curl'
 THISHOST=$(hostname)
@@ -22,6 +22,17 @@ function help () {
     echo "    registerContainer.sh {authToken} {serviceName}";
     echo "    authToken    -    Bluemix Service Discovery Credential Token";
     echo "    serviceName  -    The name of the service needs to registered";
+}
+
+function heartbeat(){
+  HB_TTL=$(expr ${DEFAULT_TTL} / 2)
+  HEARTBEAT_URL=${1}
+
+  while [[ ! -z $(netstat -lnt | awk "\$6 == \"LISTEN\"" ) ]] ; do
+    HEARTBEAT=$(curl -s -X POST -H "Authorization: Bearer ${AUTHTOKEN}" -H "Content-Length: 0" "${HEARTBEAT_URL}")
+    echo ${HEARTBEAT}
+    sleep ${HB_TTL} # sleep for half the TTL
+  done
 }
 
 if [ ${AUTHTOKEN} ]
@@ -41,7 +52,8 @@ then
       NEWSERVICEINFO=$(curl -s -X POST -H "Authorization: Bearer ${AUTHTOKEN}" -H "Content-Type: application/json" "${SDENDPOINT}/instances" -d "${NEWSERVICE}")
       echo ${NEWSERVICEINFO}
       echo "Executing command to create cluster master instance:" ${MASTER_COMMAND}
-      ${MASTER_COMMAND}
+      ${MASTER_COMMAND} &
+      heartbeat $(echo ${NEWSERVICEINFO} | jq '.instances[0].links.heartbeat')
     else
       echo "Pull existing node data and register as a peer... "
       SERVICEINFO=$(curl -s -X GET -H "Authorization: Bearer ${AUTHTOKEN}" "${SDENDPOINT}/services/${SERVICENAME}" | jq '.')
@@ -49,7 +61,7 @@ then
 
       NEWSERVICE="{\"service_name\":\"${SERVICENAME}\", \"endpoint\": {\"type\":\"tcp\", \"value\":\"{${THISIP}}\"}, \"status\":\"UP\", \"tags\": [\"${THISHOST}\"], \"ttl\":${DEFAULT_TTL}, \"metadata\":{\"node\":2}}"
       echo ${NEWSERVICE}
-      
+
       #TODO Update node to be accurate count of instances++
       NEWSERVICEINFO=$(curl -s -X POST -H "Authorization: Bearer ${AUTHTOKEN}" -H "Content-Type: application/json" "${SDENDPOINT}/instances" -d "${NEWSERVICE}")
       echo ${NEWSERVICEINFO}
@@ -58,7 +70,8 @@ then
       JOIN_IP=${MASTER_IP}
 
       echo "Executing command to create cluster peer instance:" ${PEER_COMMAND}
-      eval ${PEER_COMMAND}
+      eval ${PEER_COMMAND} &
+      heartbeat $(echo ${NEWSERVICEINFO} | jq '.instances[0].links.heartbeat')
 
     fi
 
