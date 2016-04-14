@@ -55,7 +55,7 @@ then
 
       echo "Executing command to create cluster peer instance:"
       echo ${PEER_COMMAND}
-      eval (${PEER_COMMAND})
+      eval ${PEER_COMMAND}
 
     fi
 
