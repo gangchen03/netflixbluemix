@@ -49,31 +49,38 @@ then
     # if not, register itself as master/first node
     if [ "${SERVICEINFO}" == "null" ]; then
       echo "Service does not exist, will register as first node..."
+
       NEWSERVICE="{\"service_name\":\"${SERVICENAME}\", \"endpoint\": {\"type\":\"tcp\", \"value\":\"{${THISIP}}\"}, \"status\":\"UP\", \"tags\": [\"${THISHOST}\"], \"ttl\":${DEFAULT_TTL}, \"metadata\":{\"node\":1}}"
-      echo ${NEWSERVICE}
+      echo "Registering new service as:" ${NEWSERVICE}
+
       NEWSERVICEINFO=$(curl -s -X POST -H "Authorization: Bearer ${AUTHTOKEN}" -H "Content-Type: application/json" "${SDENDPOINT}/instances" -d "${NEWSERVICE}")
-      echo ${NEWSERVICEINFO}
+      echo "Registered service meta-data:" ${NEWSERVICEINFO}
+
       echo "Executing command to create cluster master instance:" ${MASTER_COMMAND}
       ${MASTER_COMMAND} &
-      heartbeat $(echo ${NEWSERVICEINFO} | jq '.instances[0].links.heartbeat')
+
+      heartbeat $(echo ${NEWSERVICEINFO} | jq '.links.heartbeat')
+
     else
       echo "Pull existing node data and register as a peer... "
+
       SERVICEINFO=$(curl -s -X GET -H "Authorization: Bearer ${AUTHTOKEN}" "${SDENDPOINT}/services/${SERVICENAME}" | jq '.')
       MASTER_IP=$(echo ${SERVICEINFO} | jq '.instances[0].endpoint.value' | sed 's/{//g;s/}//g;s/\"//g;')
 
       NEWSERVICE="{\"service_name\":\"${SERVICENAME}\", \"endpoint\": {\"type\":\"tcp\", \"value\":\"{${THISIP}}\"}, \"status\":\"UP\", \"tags\": [\"${THISHOST}\"], \"ttl\":${DEFAULT_TTL}, \"metadata\":{\"node\":2}}"
-      echo ${NEWSERVICE}
+      echo "Registering new service as:" ${NEWSERVICE}
 
       #TODO Update node to be accurate count of instances++
       NEWSERVICEINFO=$(curl -s -X POST -H "Authorization: Bearer ${AUTHTOKEN}" -H "Content-Type: application/json" "${SDENDPOINT}/instances" -d "${NEWSERVICE}")
-      echo ${NEWSERVICEINFO}
+      echo "Registered service meta-data:" ${NEWSERVICEINFO}
 
       echo "Cluster Master IP Address:" ${MASTER_IP}
       JOIN_IP=${MASTER_IP}
 
       echo "Executing command to create cluster peer instance:" ${PEER_COMMAND}
       eval ${PEER_COMMAND} &
-      heartbeat $(echo ${NEWSERVICEINFO} | jq '.instances[0].links.heartbeat')
+
+      heartbeat $(echo ${NEWSERVICEINFO} | jq '.links.heartbeat')
 
     fi
 
