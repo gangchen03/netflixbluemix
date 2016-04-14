@@ -31,7 +31,7 @@ function heartbeat(){
   while [[ ! -z $(netstat -lnt | awk "\$6 == \"LISTEN\"" ) ]] ; do
     NOW=$(date)
     echo "[${NOW}] Heartbeating ${HEARTBEAT_URL}"
-    HEARTBEAT=$(curl -s -X POST -H "Authorization: Bearer ${AUTHTOKEN}" -H "Content-Length: 0" "${HEARTBEAT_URL}")
+    HEARTBEAT=$(curl -s -X PUT -H "Authorization: Bearer ${AUTHTOKEN}" -H "Content-Length: 0" "${HEARTBEAT_URL}")
     echo ${HEARTBEAT}
     sleep ${HB_TTL} # sleep for half the TTL
   done
@@ -78,7 +78,7 @@ then
       JOIN_IP=${MASTER_IP}
 
       echo "Executing command to create cluster peer instance:" ${PEER_COMMAND}
-      eval ${PEER_COMMAND} &
+      (eval ${PEER_COMMAND}) &
 
       heartbeat $(echo ${NEWSERVICEINFO} | jq '.links.heartbeat')
 
