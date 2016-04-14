@@ -29,11 +29,11 @@ function heartbeat(){
   HEARTBEAT_URL=${1}
 
   while [[ ! -z $(netstat -lnt | awk "\$6 == \"LISTEN\"" ) ]] ; do
+    sleep ${HB_TTL} # sleep for half the TTL
     NOW=$(date)
     echo "[${NOW}] Heartbeating ${HEARTBEAT_URL}"
-    HEARTBEAT=$(curl -X PUT -H "Authorization: Bearer ${AUTHTOKEN}" -H "Content-Length: 0" ${HEARTBEAT_URL})
+    HEARTBEAT=$(curl -s -X PUT -H "Authorization: Bearer ${AUTHTOKEN}" -H "Content-Length: 0" ${HEARTBEAT_URL})
     #echo ${HEARTBEAT}
-    sleep ${HB_TTL} # sleep for half the TTL
   done
 }
 
@@ -56,10 +56,10 @@ then
       NEWSERVICEINFO=$(curl -s -X POST -H "Authorization: Bearer ${AUTHTOKEN}" -H "Content-Type: application/json" "${SDENDPOINT}/instances" -d "${NEWSERVICE}")
       echo "Registered service meta-data:" ${NEWSERVICEINFO}
 
-      echo "Executing command to create cluster master instance:" ${MASTER_COMMAND}
-      ${MASTER_COMMAND} &
+      heartbeat $(echo ${NEWSERVICEINFO} | jq -r '.links.heartbeat') &
 
-      heartbeat $(echo ${NEWSERVICEINFO} | jq '.links.heartbeat')
+      echo "Executing command to create cluster master instance:" ${MASTER_COMMAND}
+      ${MASTER_COMMAND}
 
     else
       echo "Pull existing node data and register as a peer... "
@@ -77,10 +77,10 @@ then
       echo "Cluster Master IP Address:" ${MASTER_IP}
       JOIN_IP=${MASTER_IP}
 
-      echo "Executing command to create cluster peer instance:" ${PEER_COMMAND}
-      (eval ${PEER_COMMAND}) &
+      heartbeat $(echo ${NEWSERVICEINFO} | jq -r '.links.heartbeat') &
 
-      heartbeat $(echo ${NEWSERVICEINFO} | jq '.links.heartbeat')
+      echo "Executing command to create cluster peer instance:" ${PEER_COMMAND}
+      eval ${PEER_COMMAND}
 
     fi
 
