@@ -47,7 +47,12 @@ then
       SERVICEINFO=$(curl -s -X GET -H "Authorization: Bearer ${AUTHTOKEN}" "${SDENDPOINT}/services/${SERVICENAME}" | jq '.')
       MASTER_IP=$(echo ${SERVICEINFO} | jq '.instances[0].endpoint.value' | sed 's/{//g;s/}//g;s/\"//g;')
 
-      #TODO NEED TO POST & REGISTER PEER INSTANCE HERE
+      NEWSERVICE="{\"service_name\":\"${SERVICENAME}\", \"endpoint\": {\"type\":\"tcp\", \"value\":\"{${THISIP}}\"}, \"status\":\"UP\", \"tags\": [\"${THISHOST}\"], \"ttl\":${DEFAULT_TTL}, \"metadata\":{\"node\":2}}"
+      echo ${NEWSERVICE}
+      
+      #TODO Update node to be accurate count of instances++
+      NEWSERVICEINFO=$(curl -s -X POST -H "Authorization: Bearer ${AUTHTOKEN}" -H "Content-Type: application/json" "${SDENDPOINT}/instances" -d "${NEWSERVICE}")
+      echo ${NEWSERVICEINFO}
 
       echo "Cluster Master IP Address:" ${MASTER_IP}
       JOIN_IP=${MASTER_IP}
