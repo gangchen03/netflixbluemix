@@ -24,13 +24,13 @@ function help () {
     echo "    serviceName  -    The name of the service needs to registered";
 }
 
-if [ ${1} ]
+if [ ${AUTHTOKEN} ]
 then
     # do stuff
-    echo "Prepare to register service: ${2}"
+    echo "Prepare to register service: ${SERVICENAME}"
 
     # service lookup to ensure this is not the first/master node in cluster
-    SERVICEINFO=$(curl -X GET -H "Authorization: Bearer ${AUTHTOKEN}" "${SDENDPOINT}/services/${SERVICENAME}" | jq '.instances[0]')
+    SERVICEINFO=$(curl -s -X GET -H "Authorization: Bearer ${AUTHTOKEN}" "${SDENDPOINT}/services/${SERVICENAME}" | jq '.instances[0]')
     #echo $SERVICEINFO
 
     # if not, register itself as master/first node
@@ -38,14 +38,14 @@ then
       echo "Service does not exist, will register as first node..."
       NEWSERVICE="{\"service_name\":\"${SERVICENAME}\", \"endpoint\": {\"type\":\"tcp\", \"value\":\"{${THISIP}}\"}, \"status\":\"UP\", \"tags\": [\"${THISHOST}\"], \"ttl\":${DEFAULT_TTL}, \"metadata\":{\"node\":1}}"
       echo ${NEWSERVICE}
-      NEWSERVICEINFO=$(curl -X POST -H "Authorization: Bearer ${AUTHTOKEN}" -H "Content-Type: application/json" "${SDENDPOINT}/instances" -d "${NEWSERVICE}")
+      NEWSERVICEINFO=$(curl -s -X POST -H "Authorization: Bearer ${AUTHTOKEN}" -H "Content-Type: application/json" "${SDENDPOINT}/instances" -d "${NEWSERVICE}")
       echo ${NEWSERVICEINFO}
       echo "Executing command to create cluster master instance:"
       echo ${MASTER_COMMAND}
       ${MASTER_COMMAND}
     else
       echo "Pull existing node data and register as a peer... "
-      SERVICEINFO=$(curl -X GET -H "Authorization: Bearer ${AUTHTOKEN}" "${SDENDPOINT}/services/${SERVICENAME}" | jq '.')
+      SERVICEINFO=$(curl -s -X GET -H "Authorization: Bearer ${AUTHTOKEN}" "${SDENDPOINT}/services/${SERVICENAME}" | jq '.')
       MASTERIP=$(echo ${SERVICEINFO} | jq '.instances[0].endpoint.value' | sed 's/{//g;s/}//g;s/\"//g;')
 
       #TODO NEED TO POST & REGISTER PEER INSTANCE HERE
