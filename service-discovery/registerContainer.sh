@@ -41,6 +41,7 @@ if [ ${AUTHTOKEN} ]
 then
     # do stuff
     echo "Prepare to register service: ${SERVICENAME}"
+    sleep 30
 
     # service lookup to ensure this is not the first/master node in cluster
     SERVICEINFO=$(curl -s -X GET -H "Authorization: Bearer ${AUTHTOKEN}" "${SDENDPOINT}/services/${SERVICENAME}" | jq '.instances[0]')
