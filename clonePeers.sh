@@ -6,12 +6,12 @@
 ##
 ##############################################################################
 
-BASEREPO="https://github.com/osowski/netflixbluemix"
-REPO_CORE="https://github.com/osowski/netflixbluemix-core"
-REPO_DB2="https://github.com/osowski/netflixbluemix-db2"
-REPO_MYSQL="https://github.com/osowski/netflixbluemix-mysql"
-REPO_MQ="https://github.com/osowski/netflixbluemix-mq"
-REPO_ES="https://github.com/osowski/netflixbluemix-elasticsearch"
+BASEREPO="https://github.com/ibm-solution-engineering/netflixbluemix"
+REPO_CORE="https://github.com/ibm-solution-engineering/netflixbluemix-core"
+REPO_DB2="https://github.com/ibm-solution-engineering/netflixbluemix-db2"
+REPO_MYSQL="https://github.com/ibm-solution-engineering/netflixbluemix-mysql"
+REPO_MQ="https://github.com/ibm-solution-engineering/netflixbluemix-mq"
+REPO_ES="https://github.com/ibm-solution-engineering/netflixbluemix-elasticsearch"
 
 echo 'Cloning peer projects...'
 

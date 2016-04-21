@@ -12,12 +12,12 @@ The overall project consists of multiple sub projects:
 
 ## Project repositories:
 
- - https://github.com/osowski/netflixbluemix _current repo_
- - https://github.com/osowski/netflixbluemix-core - Contains Eureka, Zuul, and Nginx applications
- - https://github.com/osowski/netflixbluemix-db2 - Containers DB2-based microservice
- - https://github.com/osowski/netflixbluemix-mq - Contains RabbitMQ-based microservice
- - https://github.com/osowski/netflixbluemix-mysql - Contains MySQL-based microservice
- - https://github.com/osowski/netflixbluemix-elasticsearch - Contains Elasticsearch-based microservice
+ - https://github.com/ibm-solution-engineering/netflixbluemix _current repo_
+ - https://github.com/ibm-solution-engineering/netflixbluemix-core - Contains Eureka, Zuul, and Nginx applications
+ - https://github.com/ibm-solution-engineering/netflixbluemix-db2 - Containers DB2-based microservice
+ - https://github.com/ibm-solution-engineering/netflixbluemix-mq - Contains RabbitMQ-based microservice
+ - https://github.com/ibm-solution-engineering/netflixbluemix-mysql - Contains MySQL-based microservice
+ - https://github.com/ibm-solution-engineering/netflixbluemix-elasticsearch - Contains Elasticsearch-based microservice
 
 ## Setup your local development environment
 
@@ -28,7 +28,7 @@ The overall project consists of multiple sub projects:
 ### Download source code
 
 - Clone this repository.
-     **`git clone https://github.com/osowski/netflixbluemix.git`**
+     **`git clone https://github.com/ibm-solution-engineering/netflixbluemix.git`**
 
 - Clone the peer repositories.
      **`./clonePeers.sh`**
