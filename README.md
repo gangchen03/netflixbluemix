@@ -19,6 +19,21 @@ The overall project consists of multiple sub projects:
  - https://github.com/ibm-solution-engineering/netflixbluemix-mysql - Contains MySQL-based microservice
  - https://github.com/ibm-solution-engineering/netflixbluemix-elasticsearch - Contains Elasticsearch-based microservice
 
+## Sample Deployed Architecture
+
+![Sample Deployed Architecture for Netflix OSS Components on Bluemix Containers](/netflix-bluemix-phase1-arch.png)
+
+This repository group will deploy the following containers:
+- **Eureka**
+- **Eureka** failover replica
+- **Zuul** internal proxy, linked to _Eureka_
+- **Nginx** external proxy, linked to _Zuul_ & _Eureka_
+- Sample microservices, linked to _Eureka_:
+  - **DB2**
+  - **MySQL**
+  - **RabbitMQ**
+  - **Elasticsearch**
+
 ## Setup your local development environment
 
 ### Prerequisites
