@@ -170,6 +170,10 @@ Note that specific Docker Compose files must be used in this process to interact
 ## Validate deployment
 Use the following links to validate a successful solution deployment to local or Bluemix container.
 
+- Access Landing Page:
+    [http://nginx_ip/eureka/default.html](http://nginx_ip/eureka/default.html)    
+    This is a default landing page with links to all necessary Netflix OSS components, such as Hystrix Dashboard; and each individual microservice endpoint, such as DB2, MySQL, etc.
+
 - Access Eureka Server Console:  
     [http://nginx_ip/eureka/](http://nginx_ip/eureka/)  
 

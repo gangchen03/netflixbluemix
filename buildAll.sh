@@ -22,11 +22,16 @@ cd ../netflixbluemix-core/eurekaserverdr
 cp build/libs/eureka-spring-boot-0.1.0.jar docker/app.jar
 cd ${BASEDIR}
 
-
 echo 'Build Zuul Proxy ***'
 cd ../netflixbluemix-core/zuulproxy
 ./gradlew build
 cp build/libs/zuul-spring-boot-0.1.0.jar docker/app.jar
+cd ${BASEDIR}
+
+echo 'Build Turbine Server ***'
+cd ../netflixbluemix-core/turbine
+./gradlew build
+cp build/libs/turbine-spring-boot-0.1.0.jar docker/app.jar
 cd ${BASEDIR}
 
 echo 'Build MySQL microservice ***'
@@ -34,7 +39,6 @@ cd ../netflixbluemix-mysql/microservice
 ./gradlew build
 cp build/libs/gs-spring-boot-0.1.0.jar docker/app.jar
 cd ${BASEDIR}
-
 
 echo 'Build DB2 microservice ***'
 cd ../netflixbluemix-db2/db2microservice
@@ -47,7 +51,6 @@ cd ../netflixbluemix-mq/mqmicroservice
 ./gradlew build
 cp build/libs/gc-rabbitmq-0.1.0.jar docker/app.jar
 cd ${BASEDIR}
-
 
 echo 'Build ElasticSearch Sample App ***'
 cd ../netflixbluemix-elasticsearch/elasticsearchservice
