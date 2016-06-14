@@ -59,10 +59,6 @@ services:
    expose:
      - "8080"
    mem_limit: 0
-   environment:
-     - spring.datasource.url=jdbc:db2://awh-yp-small02.services.dal.bluemix.net:50000/BLUDB:currentSchema=DB2INST1;
-     - spring.datasource.username=dash111377
-     - spring.datasource.password=o5nkbAK809xx
 
   mysql-hello-service:
    build: ../netflixbluemix-mysql/microservice/docker
