@@ -28,10 +28,10 @@ cd ../netflixbluemix-core/zuulproxy
 cp build/libs/zuul-spring-boot-0.1.0.jar docker/app.jar
 cd ${BASEDIR}
 
-echo 'Build Turbine Server ***'
-cd ../netflixbluemix-core/turbine
+echo 'Build Hystrix Dashboard ***'
+cd ../netflixbluemix-core/hystrix-dashboard
 ./gradlew build
-cp build/libs/turbine-spring-boot-0.1.0.jar docker/app.jar
+cp build/libs/hystrix-spring-boot-0.1.0.jar docker/app.jar
 cd ${BASEDIR}
 
 echo 'Build MySQL microservice ***'

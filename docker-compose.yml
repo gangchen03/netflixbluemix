@@ -28,14 +28,14 @@ services:
      - "8080"
     mem_limit: 0
 
-  turbine-server:
-    build: ../netflixbluemix-core/turbine/docker
-    image: dev/spring-turbine-server
+  hystrix-dashboard:
+    build: ../netflixbluemix-core/hystrix-dashboard/docker
+    image: dev/spring-hystrix-dashboard
     links:
       - eureka-server:eureka-server
       - eureka-server-dr:eureka-server-dr
-    expose:
-     - "8080"
+    ports:
+     - "8080:8080"
     mem_limit: 0
 
   nginx:
@@ -45,7 +45,6 @@ services:
       - eureka-server:eureka-server
       - eureka-server-dr:eureka-server-dr
       - zuul-proxy:zuul-proxy
-      - turbine-server:turbine-server
     ports:
       - "80:80"
     mem_limit: 0
@@ -60,6 +59,10 @@ services:
    expose:
      - "8080"
    mem_limit: 0
+   environment:
+     - spring.datasource.url=jdbc:db2://awh-yp-small02.services.dal.bluemix.net:50000/BLUDB:currentSchema=DB2INST1;
+     - spring.datasource.username=dash111377
+     - spring.datasource.password=o5nkbAK809xx
 
   mysql-hello-service:
    build: ../netflixbluemix-mysql/microservice/docker
@@ -94,7 +97,6 @@ services:
 
   elasticsearch-service:
    build: ../netflixbluemix-elasticsearch/elasticsearchservice/docker
-   image: dev/elasticsearch-service
    links:
      - eureka-server:eureka-server
      - eureka-server-dr:eureka-server-dr
