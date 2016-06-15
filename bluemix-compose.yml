@@ -1,7 +1,7 @@
 version: "2"
 
 services:
-  
+
   eureka-server:
     build: ../netflixbluemix-core/eurekaserver/docker
     image: registry.ng.bluemix.net/${NAMESPACE}/spring-eureka-server:latest
@@ -24,6 +24,17 @@ services:
     links:
      - eureka-server:eureka-server
      - eureka-server-dr:eureka-server-dr
+    expose:
+     - "8080"
+    mem_limit: 256
+
+  hystrix-dashboard:
+    build: ../netflixbluemix-core/hystrix-dashboard/docker
+    image: registry.ng.bluemix.net/${NAMESPACE}/spring-hystrix-dashboard:latest
+    links:
+      - eureka-server:eureka-server
+      - eureka-server-dr:eureka-server-dr
+      - nginx:nginx
     expose:
      - "8080"
     mem_limit: 256

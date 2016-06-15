@@ -21,6 +21,16 @@ zuul-proxy:
    - "8080"
   mem_limit: 256
 
+hystrix-dashboard:
+  image: registry.ng.bluemix.net/${NAMESPACE}/spring-hystrix-dashboard:latest
+  links:
+    - eureka-server:eureka-server
+    - eureka-server-dr:eureka-server-dr
+    - nginx:nginx
+  expose:
+   - "8080"
+  mem_limit: 256
+
 nginx:
   image: registry.ng.bluemix.net/${NAMESPACE}/noss-nginx:latest
   links:
