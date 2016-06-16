@@ -21,7 +21,7 @@ The overall project consists of multiple sub projects:
 
 ## Sample Deployed Architecture
 
-![Sample Deployed Architecture for Netflix OSS Components on Bluemix Containers](/netflix-bluemix-phase1-arch.png)
+![Sample Deployed Architecture for Netflix OSS Components on Bluemix Containers](/netflix-bluemix-phase1-arch-v2.png)
 
 This repository group will deploy the following containers:
 - **Eureka**
