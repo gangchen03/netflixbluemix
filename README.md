@@ -27,6 +27,7 @@ This repository group will deploy the following containers:
 - **Eureka**
 - **Eureka** failover replica
 - **Zuul** internal proxy, linked to _Eureka_
+- **Hystrix Dashboard** for circuit-break visualization, linked to _Eureka_
 - **Nginx** external proxy, linked to _Zuul_ & _Eureka_
 - Sample microservices, linked to _Eureka_:
   - **DB2**
