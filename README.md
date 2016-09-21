@@ -117,7 +117,7 @@ This repository group will deploy the following containers:
 ### Prerequisites
 
 - Install Docker Compose.
-  Due to a number of SSL library version incompatibilities, it is recommended to follow the documented install directions available in the [Bluemix Docs](https://new-console.ng.bluemix.net/docs/containers/container_cli_ov.html#container_cli_compose_install).
+  Due to a number of SSL library version incompatibilities, it is recommended to follow the documented install directions available in the [Bluemix Docs](https://new-console.ng.bluemix.net/docs/containers/container_cli_compose_install.html#container_cli_compose_install).
 
 - Install [Cloud Foundry Plugin](https://new-console.ng.bluemix.net/docs/cli/index.html#cli)
 
