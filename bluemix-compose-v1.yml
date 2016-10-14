@@ -1,0 +1,92 @@
+eureka-server:
+  image: registry.ng.bluemix.net/${NAMESPACE}/spring-eureka-server:latest
+  expose:
+   - "8080"
+  mem_limit: 256
+
+eureka-server-dr:
+  image: registry.ng.bluemix.net/${NAMESPACE}/spring-eureka-server-dr:latest
+  links:
+   - eureka-server:eureka-server
+  expose:
+   - "8080"
+  mem_limit: 256
+
+zuul-proxy:
+  image: registry.ng.bluemix.net/${NAMESPACE}/spring-zuul-proxy:latest
+  links:
+   - eureka-server:eureka-server
+   - eureka-server-dr:eureka-server-dr
+  expose:
+   - "8080"
+  mem_limit: 256
+
+hystrix-dashboard:
+  image: registry.ng.bluemix.net/${NAMESPACE}/spring-hystrix-dashboard:latest
+  links:
+    - eureka-server:eureka-server
+    - eureka-server-dr:eureka-server-dr
+    - nginx:nginx
+  expose:
+   - "8080"
+  mem_limit: 256
+
+nginx:
+  image: registry.ng.bluemix.net/${NAMESPACE}/noss-nginx:latest
+  links:
+   - eureka-server:eureka-server
+   - eureka-server-dr:eureka-server-dr
+   - zuul-proxy:zuul-proxy
+  ports:
+   - "80:80"
+  mem_limit: 256
+
+db2-hello-service:
+  image: registry.ng.bluemix.net/${NAMESPACE}/db2-hello-service:latest
+  links:
+   - eureka-server:eureka-server
+   - eureka-server-dr:eureka-server-dr
+   - nginx:nginx
+  expose:
+   - "8080"
+  mem_limit: 256
+
+mysql-hello-service:
+ image: registry.ng.bluemix.net/${NAMESPACE}/mysql-hello-service
+ links:
+   - eureka-server:eureka-server
+   - eureka-server-dr:eureka-server-dr
+   - nginx:nginx
+ expose:
+   - "8080"
+ mem_limit: 256
+
+mq-hello-service:
+  image: registry.ng.bluemix.net/${NAMESPACE}/mq-hello-service:latest
+  links:
+   - eureka-server:eureka-server
+   - eureka-server-dr:eureka-server-dr
+   - nginx:nginx
+  expose:
+   - "8080"
+  mem_limit: 256
+
+elasticsearch-server:
+  image: registry.ng.bluemix.net/${NAMESPACE}/elasticsearch:1.7.3
+  links:
+   - nginx:nginx
+  expose:
+   - "9200"
+   - "9300"
+  mem_limit: 256
+
+elasticsearch-service:
+ image: registry.ng.bluemix.net/${NAMESPACE}/elasticsearch-service
+ links:
+   - eureka-server:eureka-server
+   - eureka-server-dr:eureka-server-dr
+   - elasticsearch-server:elasticsearch-server
+   - nginx:nginx
+ expose:
+   - "8080"
+ mem_limit: 256

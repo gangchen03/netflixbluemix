@@ -6,51 +6,56 @@
 ##
 ##############################################################################
 
+BASEDIR=$(pwd)
+
 echo 'Build all projects...'
 
 echo 'Build Eureka Server ***'
-cd eurekaserver
+cd ../netflixbluemix-core/eurekaserver
 ./gradlew build
 cp build/libs/eureka-spring-boot-0.1.0.jar docker/app.jar
-cd ..
+cd ${BASEDIR}
 
 echo 'Build Eureka DR Server ***'
-cd eurekaserverdr
+cd ../netflixbluemix-core/eurekaserverdr
 ./gradlew build
 cp build/libs/eureka-spring-boot-0.1.0.jar docker/app.jar
-cd ..
-
+cd ${BASEDIR}
 
 echo 'Build Zuul Proxy ***'
-cd zuulproxy
+cd ../netflixbluemix-core/zuulproxy
 ./gradlew build
 cp build/libs/zuul-spring-boot-0.1.0.jar docker/app.jar
-cd ..
+cd ${BASEDIR}
+
+echo 'Build Hystrix Dashboard ***'
+cd ../netflixbluemix-core/hystrix-dashboard
+./gradlew build
+cp build/libs/hystrix-spring-boot-0.1.0.jar docker/app.jar
+cd ${BASEDIR}
 
 echo 'Build MySQL microservice ***'
-cd microservice
+cd ../netflixbluemix-mysql/microservice
 ./gradlew build
 cp build/libs/gs-spring-boot-0.1.0.jar docker/app.jar
-cd ..
-
+cd ${BASEDIR}
 
 echo 'Build DB2 microservice ***'
-cd db2microservice
+cd ../netflixbluemix-db2/db2microservice
 ./gradlew build
 cp build/libs/gc-spring-boot-db2-0.1.0.jar docker/app.jar
-cd ..
+cd ${BASEDIR}
 
 echo 'Build MQ microservice ***'
-cd mqmicroservice
+cd ../netflixbluemix-mq/mqmicroservice
 ./gradlew build
 cp build/libs/gc-rabbitmq-0.1.0.jar docker/app.jar
-cd ..
-
+cd ${BASEDIR}
 
 echo 'Build ElasticSearch Sample App ***'
-cd elasticsearchservice
+cd ../netflixbluemix-elasticsearch/elasticsearchservice
 ./gradlew build
 cp build/libs/gc-elasticsearch-0.1.0.jar docker/app.jar
-cd ..
+cd ${BASEDIR}
 
 echo 'Completed All Builds successfully!'
